@@ -11,8 +11,8 @@ public class Publisher {
     public static final String BROKER_URL = "tcp://broker.mqttdashboard.com:1883";
     //public static final String BROKER_URL = "tcp://test.mosquitto.org:1883";
 
-    public static final String TOPIC_BRIGHTNESS = "eclipsemagazin/homeautomation/brightness";
-    public static final String TOPIC_TEMPERATURE = "eclipsemagazin/homeautomation/temperature";
+    public static final String TOPIC_BRIGHTNESS = "homeautomation/brightness";
+    public static final String TOPIC_TEMPERATURE = "homeautomation/temperature";
 
     private MqttClient client;
 
@@ -25,8 +25,14 @@ public class Publisher {
 
         try {
             client = new MqttClient(BROKER_URL, clientId);
+        } catch (MqttException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
 
-
+    private void start() {
+        try {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(false);
 
@@ -43,9 +49,9 @@ public class Publisher {
 
                 Thread.sleep(1000);
             }
-
         } catch (MqttException e) {
             e.printStackTrace();
+            System.exit(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -54,9 +60,9 @@ public class Publisher {
     private void publishTemperature() throws MqttException {
         final MqttTopic temperatureTopic = client.getTopic(TOPIC_TEMPERATURE);
         final int temperatureNumber = Utils.createRandomNumberBetween(20, 30);
-        final String temperature = temperatureNumber + " °C";
+        final String temperature = temperatureNumber + "°C";
         temperatureTopic.publish(new MqttMessage(temperature.getBytes()));
-        System.out.println("Published data. Topic: " + temperatureTopic.getName() + " Message: " + temperature);
+        System.out.println("Published data. Topic: " + temperatureTopic.getName() + "  Message: " + temperature);
     }
 
     private void publishBrightness() throws MqttException {
@@ -70,5 +76,6 @@ public class Publisher {
 
     public static void main(String... args) {
         final Publisher publisher = new Publisher();
+        publisher.start();
     }
 }
