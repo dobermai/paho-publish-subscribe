@@ -19,10 +19,7 @@ public class Subscriber {
 
         try {
             mqttClient = new MqttClient(BROKER_URL, clientId);
-            mqttClient.setCallback(new SubscribeCallback());
-            mqttClient.connect();
 
-            mqttClient.subscribe("#");
 
         } catch (MqttException e) {
             e.printStackTrace();
@@ -30,8 +27,24 @@ public class Subscriber {
         }
     }
 
-    public static void main(String...args) {
-        new Subscriber();
+    public void start() {
+        try {
+
+            mqttClient.setCallback(new SubscribeCallback());
+            mqttClient.connect();
+
+            //Subscribe to all subtopics of homeautomation
+            mqttClient.subscribe("homeautomation/#");
+
+        } catch (MqttException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static void main(String... args) {
+        final Subscriber subscriber = new Subscriber();
+        subscriber.start();
     }
 
 }

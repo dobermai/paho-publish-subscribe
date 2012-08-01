@@ -24,7 +24,9 @@ public class Publisher {
 
 
         try {
+
             client = new MqttClient(BROKER_URL, clientId);
+
         } catch (MqttException e) {
             e.printStackTrace();
             System.exit(1);
@@ -35,6 +37,7 @@ public class Publisher {
         try {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(false);
+            options.setWill(client.getTopic("homeautomation/LWT"), "I'm gone :(".getBytes(), 0, false);
 
             client.connect(options);
 
