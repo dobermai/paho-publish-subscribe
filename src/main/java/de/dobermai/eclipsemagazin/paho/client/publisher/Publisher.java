@@ -34,6 +34,7 @@ public class Publisher {
     }
 
     private void start() {
+
         try {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setCleanSession(false);
@@ -62,9 +63,12 @@ public class Publisher {
 
     private void publishTemperature() throws MqttException {
         final MqttTopic temperatureTopic = client.getTopic(TOPIC_TEMPERATURE);
+
         final int temperatureNumber = Utils.createRandomNumberBetween(20, 30);
         final String temperature = temperatureNumber + "°C";
+
         temperatureTopic.publish(new MqttMessage(temperature.getBytes()));
+
         System.out.println("Published data. Topic: " + temperatureTopic.getName() + "  Message: " + temperature);
     }
 
@@ -73,7 +77,9 @@ public class Publisher {
 
         final int brightnessNumber = Utils.createRandomNumberBetween(0, 100);
         final String brigthness = brightnessNumber + "%";
+
         brightnessTopic.publish(new MqttMessage(brigthness.getBytes()));
+
         System.out.println("Published data. Topic: " + brightnessTopic.getName() + "   Message: " + brigthness);
     }
 
