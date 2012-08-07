@@ -10,6 +10,7 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 public class Subscriber {
 
     public static final String BROKER_URL = "tcp://broker.mqttdashboard.com:1883";
+    //public static final String BROKER_URL = "tcp://test.mosquitto.org:1883";
 
     //We have to generate a unique Client id.
     String clientId = Utils.getMacAddress() + "-sub";

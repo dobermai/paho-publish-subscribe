@@ -47,11 +47,11 @@ public class Publisher {
 
                 publishBrightness();
 
-                Thread.sleep(1000);
+                Thread.sleep(500);
 
                 publishTemperature();
 
-                Thread.sleep(1000);
+                Thread.sleep(500);
             }
         } catch (MqttException e) {
             e.printStackTrace();
